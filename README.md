@@ -43,6 +43,8 @@ This subsection will discuss specific aspects related to problem and settings of
 
 ### The problem
 
+It was considered the following problem instance: 19 requirements that should be implemented in 5 releases; 5 stakeholders, each one with a weight (importance) and his/her requirements priorities; 3 different resources were considered, where each release had a limited amount of them, and the total amount was less than the effort needed to implement all the 19 requirements.
+
 Given the aspects above mentioned, the problem of soft-ware release planning can be described as follows:
 
 ##### We want to both:

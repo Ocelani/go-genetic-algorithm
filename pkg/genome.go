@@ -4,26 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"math/rand"
-	"strings"
 
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
-
-// Software represents a software project variables.
-type Software struct {
-	Requirements int
-	Stakeholders int
-	Releases     int
-	Resources    int
-}
-
-var (
-	corpus = strings.Split("abcdefghijklmnopqrstuvwxyz ", "")
-	target = strings.Split("software release", "")
-)
-
-// Strings is a slice of strings.
-type Strings []string
 
 // MakeStrings method creates random Strings slices.
 func MakeStrings(rng *rand.Rand) eaopt.Genome {
@@ -100,9 +83,3 @@ func Run() {
 
 	return
 }
-
-// 	NPops        uint        // The number of populations that will be used
-// 	PopSize      uint        // The number of individuals inside each population
-//  NGenerations             // For many generations the populations will be evolved
-// 	HofSize      uint        // How many of the best individuals should be recorded
-// 	Model        eaopt.Model // Determines how to evolve each population of individuals
