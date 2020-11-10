@@ -1,11 +1,11 @@
 # Genetic algorithm
 
-This study is inspired by the article:
+This repo is inspired by the article:
 "A new approach to the software release planning", deColares et al.
 
 ## Metaheuristic Settings
 
-The following text was retired from the study:
+The following text was retired from the article:
 
 ``
 This subsection will discuss specific aspects related to problem and settings of the algorithm. Below we show these aspects and settings.
