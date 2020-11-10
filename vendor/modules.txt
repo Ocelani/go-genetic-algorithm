@@ -1,6 +1,0 @@
-# github.com/MaxHalford/eaopt v0.1.0
-## explicit
-github.com/MaxHalford/eaopt
-# golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
-## explicit
-golang.org/x/sync/errgroup

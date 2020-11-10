@@ -3,22 +3,25 @@ package genome
 import (
 	"log"
 	"math/rand"
+	"strings"
 	"time"
+
+	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
 type GAConfig struct {
 	// Required fields
-	NPops        uint
-	PopSize      uint
-	NGenerations uint
-	HofSize      uint
-	Model        Model
+	NPops        uint        // The number of populations that will be used: RAND
+	PopSize      uint        // The number of individuals inside each population: 400
+	NGenerations uint        // For many generations the populations will be evolved: 5000
+	HofSize      uint        // How many of the best individuals should be recorded: 40
+	Model        eaopt.Model // Determines how to evolve each population of individuals: Steady state model
 
 	// Optional fields
 	ParallelEval bool // Whether to evaluate Individuals in parallel or not
-	Migrator     Migrator
+	Migrator     eaopt.Migrator
 	MigFrequency uint // Frequency at which migrations occur
-	Speciator    Speciator
+	Speciator    eaopt.Speciator
 	Logger       *log.Logger
 	Callback     func(ga *GA)
 	EarlyStop    func(ga *GA) bool
@@ -28,35 +31,53 @@ type GAConfig struct {
 type GA struct {
 	GAConfig
 
-	Populations Populations
-	HallOfFame  Individuals
+	Populations eaopt.Populations
+	HallOfFame  eaopt.Individuals
 	Age         time.Duration
 	Generations uint
 }
 
+var (
+	corpus = strings.Split("abcdefghijklmnopqrstuvwxyz ", "")
+	target = strings.Split("software release", "")
+)
+
+// Strings is a slice of strings.
+type Strings []string
+
+// MakeStrings creates random Strings slices
+// by picking random characters from a corpus.
+func MakeStrings(rng *rand.Rand) eaopt.Genome {
+	return Strings(eaopt.InitUnifString(uint(len(target)), corpus, rng))
+}
+
 // Evaluate method returns the fitness of a genome.
 // It specifies the problem to deal with and the algorithm only needs it's output.
-func Evaluate() (float64, error) {
-
+func (X Strings) Evaluate() (mismatches float64, err error) {
+	for i, s := range X {
+		if s != target[i] {
+			mismatches++
+		}
+	}
+	return
 }
 
-// Mutate method is where we modify an existing solution by tinkering with it's variables.
-// The mutate of a solution essentially boils down to the particular problem.
-func Mutate(rng *rand.Rand) {
-
+// Mutate a Strings slice by replacing it's elements
+// by random characters contained in  a corpus.
+func (X Strings) Mutate(rng *rand.Rand) {
+	eaopt.MutUniformString(X, corpus, 3, rng)
 }
 
-// Crossover method combines two individuals.
-// The Genome type argument differs from the struct calling the method,
-// wich has to be casted into the struct before being able to apply a crossover operator.
-// This is due to the fact that Go doesn't provide generics out of the box.
-func Crossover(genome Genome, rng *rand.Rand) {
-
+// Crossover a Strings slice with another by applying 2-point crossover.
+func (X Strings) Crossover(Y eaopt.Genome, rng *rand.Rand) {
+	eaopt.CrossGNXString(X, Y.(Strings), 2, rng)
 }
 
-// Clone method produces independent copies of the struct to evolve.
-// It ensures that pointer fields are not pointing to identical memory addresses.
-// This makes the produced clones to not be shallow copies of the cloned genome.
-func Clone() Genome {
-
+// Clone method produces independent copies of the Strings to evolve.
+// Pointer fields are not pointing to identical memory addresses.
+// This makes the produced clones to not be shallow copies of the genome.
+func (X Strings) Clone() eaopt.Genome {
+	var XX = make(Strings, len(X))
+	copy(XX, X)
+	return XX
 }
