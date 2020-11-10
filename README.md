@@ -3,9 +3,9 @@
 This repo is inspired by the article:
 "A new approach to the software release planning", deColares et al.
 
-## Metaheuristic Settings
+The following texts was retired from the article.
 
-The following text was retired from the article:
+## Metaheuristic Settings
 
 ``
 This subsection will discuss specific aspects related to problem and settings of the algorithm. Below we show these aspects and settings.
@@ -22,3 +22,37 @@ This subsection will discuss specific aspects related to problem and settings of
    • population size (solutions per generation): 400
    • number of generations: 5000
    ``
+
+### Variables
+
+- Requirements: There are several requirements to be implemented, which may be allocated to a specific release or may even not be allocated, that is, not implemented. Associated to each requirement there is a risk value. For the sake of simplicity the risk levels may vary from 0 (lowest) up to 5 (highest).
+
+- Stakeholders: There are multiple stakeholders with different needs and possibly conflicting interests. These stakeholders have different importance levels to the company. These importance levels vary from 1 (lowest) up to 5 (highest).
+
+- Releases: All releases that will be developed. Handles all those requirements that due to the restrictions of resources will be left for some other following releases
+
+- Resources: Are all sort of goods available for the completion of the project activities. Naturally, release planning must respect the availability of resources.
+
+#### Relations
+
+- Stakeholders vs. Requirements: Associated to every requirement there are importance (priority) values, which measure its importance to each stakeholders.
+
+- Resources vs. Releases vs. Requirements: To implement each requirement there is a cost related to each resource.
+
+- Risks vs. Releases: The requirements with higher risk level are supposed to be implemented in earlier releases.
+
+### The problem
+
+Given the aspects above mentioned, the problem of soft-ware release planning can be described as follows:
+
+##### We want to both:
+
+– maximize stakeholders satisfaction and
+
+– minimize project risks.
+
+##### Respecting:
+
+– the available resources and
+
+– the requirements interdependencies.

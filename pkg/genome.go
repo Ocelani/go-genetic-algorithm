@@ -9,6 +9,14 @@ import (
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
+// Software represents a software project variables.
+type Software struct {
+	Requirements int
+	Stakeholders int
+	Releases     int
+	Resources    int
+}
+
 var (
 	corpus = strings.Split("abcdefghijklmnopqrstuvwxyz ", "")
 	target = strings.Split("software release", "")
@@ -17,14 +25,12 @@ var (
 // Strings is a slice of strings.
 type Strings []string
 
-// MakeStrings creates random Strings slices
-// by picking random characters from a corpus.
+// MakeStrings method creates random Strings slices.
 func MakeStrings(rng *rand.Rand) eaopt.Genome {
 	return Strings(eaopt.InitUnifString(uint(len(target)), corpus, rng))
 }
 
 // Evaluate method returns the fitness of a genome.
-// It specifies the problem to deal with and the algorithm only needs it's output.
 func (X Strings) Evaluate() (mismatches float64, err error) {
 	for i, s := range X {
 		if s != target[i] {
@@ -34,13 +40,12 @@ func (X Strings) Evaluate() (mismatches float64, err error) {
 	return
 }
 
-// Mutate a Strings slice by replacing it's elements
-// by random characters contained in  a corpus.
+// Mutate method sets a Strings slice by replacing it's elements.
 func (X Strings) Mutate(rng *rand.Rand) {
 	eaopt.MutUniformString(X, corpus, 3, rng)
 }
 
-// Crossover a Strings slice with another by applying 2-point crossover.
+// Crossover method sets a Strings slice with another by applying 2-point crossover.
 func (X Strings) Crossover(Y eaopt.Genome, rng *rand.Rand) {
 	eaopt.CrossGNXString(X, Y.(Strings), 2, rng)
 }
@@ -66,10 +71,11 @@ func Run() {
 			MutRate:   0.1,
 			CrossRate: 0.9,
 		},
-		RNG:          rand.New(rand.NewSource(42)),
-		ParallelEval: true,
+		// RNG:          rand.New(rand.NewSource(42)),
+		ParallelEval: false,
 	}
 
+	ga, err := c.NewGA()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -77,12 +83,16 @@ func Run() {
 
 	// Add a custom print function to track progress
 	ga.Callback = func(ga *eaopt.GA) {
+
 		// Concatenate the elements from the best individual and display the result
 		var buffer bytes.Buffer
 		for _, letter := range ga.HallOfFame[0].Genome.(Strings) {
 			buffer.WriteString(letter)
 		}
-		fmt.Printf("%d) Result -> %s (%.0f mismatches)\n", ga.Generations, buffer.String(), ga.HallOfFame[0].Fitness)
+		fmt.Printf(
+			"%d) Result -> %s (%.0f mismatches)\n",
+			ga.Generations, buffer.String(), ga.HallOfFame[0].Fitness,
+		)
 	}
 
 	// Run the GA
