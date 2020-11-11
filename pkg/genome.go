@@ -8,6 +8,8 @@ import (
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
+// TODO: re-factor
+
 // MakeStrings method creates random Strings slices.
 func MakeStrings(rng *rand.Rand) eaopt.Genome {
 	return Strings(eaopt.InitUnifString(uint(len(target)), corpus, rng))
