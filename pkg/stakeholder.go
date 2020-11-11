@@ -6,7 +6,7 @@ import "math/rand"
 // to the company and different requirements priorities.
 type Stakeholder struct {
 	Priority     int
-	Requirements []*Requirement
+	Requirements map[string]int
 }
 
 // NewStakeholder instantiates a new stakeholder.

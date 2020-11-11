@@ -2,28 +2,39 @@ package pkg
 
 import (
 	"container/heap"
+	"math/rand"
+
+	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
 // Development represents a software project variables.
 type Development struct {
-	Requirements []*Requirement // 19 requirements
 	Stakeholders []*Stakeholder // 5 stakeholders
-	Releases     int            // 5 releases
+	Requirements map[string]int // 19 requirements
 	Resources    int            // 3 different resources
+	Release      []string       // 5 releases
 }
 
 // Resources are all sort of goods available
 // for the completion of the project activities.
-// groupID vs. amount (amount < effort)
 type Resources map[int]int
 
 // NewDevelopment instantiates a new Development type.
-func NewDevelopment() (dev *Development) {
+func NewDevelopment() *Development {
+	dev := &Development{Requirements: map[string]int{}}
 	dev.setStakeholders(5)
-	dev.setRequirements()
+	dev.setProjectRequirements()
 	dev.Resources = 3
-	dev.Releases = 0
-	return
+	return dev
+}
+
+// MakeRelease method creates random Release string slices.
+func (dev Development) MakeRelease(rng *rand.Rand) eaopt.Genome {
+	var release Release
+	for d := range dev.Requirements {
+		release = append(release, d)
+	}
+	return Release(eaopt.InitUnifString(uint(len(release)), corpus, rng))
 }
 
 func (dev *Development) setStakeholders(n int) {
@@ -33,28 +44,28 @@ func (dev *Development) setStakeholders(n int) {
 	return
 }
 
-func (dev *Development) setRequirements() {
-	var (
-		queue PriorityQueue
-		i     int
-	)
+func (dev *Development) setProjectRequirements() {
+	i := 0
+	queue := PriorityQueue{}
 
 	for _, stk := range dev.Stakeholders {
-		for _, req := range stk.Requirements {
-			queue[i] = &Item{
-				Requirement: Requirement{
-					String: req.String, PriorityRisk: req.PriorityRisk,
+		for v, p := range stk.Requirements {
+			queue = append(queue,
+				&Item{
+					Index:    i,
+					Value:    v,
+					Priority: p,
 				},
-				index: i,
-			}
+			)
 			i++
 		}
 	}
+
 	heap.Init(&queue)
 
-	for queue.Len() > 0 {
+	for len(dev.Requirements) < 20 {
 		item := heap.Pop(&queue).(*Item)
-		dev.Requirements = append(dev.Requirements, &item.Requirement)
+		dev.Requirements[item.Value] = item.Priority
 	}
 
 	return
