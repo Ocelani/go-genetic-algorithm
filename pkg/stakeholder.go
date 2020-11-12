@@ -11,11 +11,10 @@ type Stakeholder struct {
 }
 
 // NewStakeholder instantiates a new stakeholder.
-func NewStakeholder(id int) *Stakeholder {
+func NewStakeholder() *Stakeholder {
 	i := rand.Intn(5)
 
 	return &Stakeholder{
-		ID:           id,
 		Priority:     i,
 		Requirements: NewRequirementsList(i),
 	}
