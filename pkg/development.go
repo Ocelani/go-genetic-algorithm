@@ -2,15 +2,18 @@ package pkg
 
 import (
 	"container/heap"
-	"strings"
+	"math/rand"
+
+	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
 // Development represents a software project variables.
 type Development struct {
-	Stakeholders []Stakeholder // 5 stakeholders
-	Requirements []string      // 19 requirements
-	Resources    int           // 3 different resources
-	// Release      []string       // 5 releases
+	Stakeholders []*Stakeholder // 5 stakeholders
+	Requirements map[string]int // 19 requirements
+	Resources    int            // 3 different resources
+	Release      Release        // 5 releases
+	Target       []string       // 5 releases
 }
 
 // Resources are all sort of goods available
@@ -18,60 +21,49 @@ type Development struct {
 type Resources map[int]int
 
 // NewDevelopment instantiates a new Development type.
-func NewDevelopment() Development {
-	dev := Development{
-		Requirements: strings.Split("injOhgdTlnDSArwLpmn", ""),
-		// Stakeholders: setStakeholders(5),
-	}
-
+func NewDevelopment() *Development {
+	dev := &Development{Requirements: map[string]int{}}
+	dev.setStakeholders(5)
+	dev.setProjectRequirements()
+	dev.Resources = 3
 	return dev
 }
 
-// // MakeRelease method creates random Release string slices.
-// func (dev *Development) MakeRelease(rng *rand.Rand) eaopt.Genome {
-// 	var release Release
-// 	dev.Release = Release{}
-
-// 	for _, d := range dev.Requirements {
-// 		release = append(release, d)
-// 	}
-// 	return Release(eaopt.InitUnifString(uint(len(release)), corpus, rng))
-// }
-
-func setStakeholders(n int) []Stakeholder {
-	stks := []Stakeholder{}
-	for i := 0; i < n; i++ {
-		stks = append(stks, NewStakeholder())
-	}
-	return stks
+// MakeRelease method creates random Release string slices.
+func (dev *Development) MakeRelease(rng *rand.Rand) eaopt.Genome {
+	dev.Release = Release(eaopt.InitUnifString(uint(len(dev.Release)), corpus, rng))
+	return dev.Release
 }
 
-func setProjectRequirements() []string {
-	stks := []Stakeholder{}
-	for i := 0; i < 5; i++ {
-		stks = append(stks, NewStakeholder())
+func (dev *Development) setStakeholders(n int) {
+	for i := 0; i < n; i++ {
+		dev.Stakeholders = append(dev.Stakeholders, NewStakeholder())
 	}
+}
 
-	var queue PriorityQueue
-
+func (dev *Development) setProjectRequirements() {
 	i := 0
-	for _, stk := range stks {
+	queue := PriorityQueue{}
+
+	for _, stk := range dev.Stakeholders {
 		for v, p := range stk.Requirements {
-			queue[i] = &Item{
-				Index:    i,
-				Value:    v,
-				Priority: p,
-			}
+			queue = append(queue,
+				&Item{
+					Index:    i,
+					Value:    v,
+					Priority: p,
+				},
+			)
 			i++
 		}
 	}
 	heap.Init(&queue)
 
-	reqs := []string{}
-	for queue.Len() > 0 {
+	dev.Target = []string{}
+	for len(dev.Requirements) < 20 {
 		item := heap.Pop(&queue).(*Item)
-		reqs = append(reqs, item.Value)
+		dev.Requirements[item.Value] = item.Priority
+		dev.Target = append(dev.Target, item.Value)
 	}
-
-	return reqs
+	dev.Release = make([]string, len(dev.Requirements))
 }

@@ -9,22 +9,16 @@ import (
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
-// TODO: re-factor
-
 // Release is a slice of Release.
 type Release []string
 
 var corpus = strings.Split("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", "")
-
 var dev = NewDevelopment()
-
-var target = dev.Release
 
 // Evaluate method returns the fitness of a genome.
 func (x Release) Evaluate() (mismatches float64, err error) {
-	// dev.Requirements = strings.Split("abcdefghijkirthyt", "")
 	for i, s := range x {
-		if s != dev.Requirements[i] {
+		if s != dev.Target[i] {
 			mismatches++
 		}
 	}
@@ -37,8 +31,8 @@ func (x Release) Mutate(rng *rand.Rand) {
 }
 
 // Crossover method sets a Release string slice with another by applying 2-point crossover.
-func (x Release) Crossover(y eaopt.Genome, rng *rand.Rand) {
-	eaopt.CrossGNXString(x, y.(Release), 2, rng)
+func (x Release) Crossover(Y eaopt.Genome, rng *rand.Rand) {
+	eaopt.CrossGNXString(x, Y.(Release), 2, rng)
 }
 
 // Clone method produces independent copies of the Release to evolve.
@@ -50,41 +44,41 @@ func (x Release) Clone() eaopt.Genome {
 	return xx
 }
 
-// MakeRelease creates random Release strings slices.
-func MakeRelease(rng *rand.Rand) eaopt.Genome {
-	return Release(eaopt.InitUnifString(uint(len(dev.Requirements)), corpus, rng))
-}
-
 // Run executes the algorithm.
 func Run() {
-	var ga, err = eaopt.NewDefaultGAConfig().NewGA()
+	// dev := dev
+	c := &eaopt.GAConfig{
+		NPops:        400,  // The number of populations that will be used
+		PopSize:      300,  // The number of individuals inside each population
+		NGenerations: 5000, // For many generations the populations will be evolved
+		HofSize:      1,    // How many of the best individuals should be recorded
+		Model: eaopt.ModSteadyState{ // Determines how to evolve each population of individuals
+			Selector:  eaopt.SelElitism{},
+			MutRate:   0.1,
+			CrossRate: 0.9,
+		},
+		// RNG:          rand.New(rand.NewSource(42)),
+		ParallelEval: true,
+		// EarlyStop:    func(ga *eaopt.GA) bool { if ga.HallOfFame[] },
+	}
+	ga, err := c.NewGA()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	ga.NPops = 400                   // The number of populations that will be used
-	ga.PopSize = 100                 // The number of individuals inside each population
-	ga.NGenerations = 5000           // For many generations the populations will be evolved
-	ga.HofSize = 1                   // How many of the best individuals should be recorded
-	ga.Model = eaopt.ModSteadyState{ // Determines how to evolve each population of individuals
-		Selector:  eaopt.SelElitism{},
-		MutRate:   0.1,
-		CrossRate: 0.9,
-	}
-	ga.ParallelEval = true
-
-	ga.Callback = func(ga *eaopt.GA) { // Add a custom print function to track progress
+	// Add a custom print function to track progress
+	ga.Callback = func(ga *eaopt.GA) {
 		var buffer bytes.Buffer
-
+		// Concatenate the elements from the best individual and display the result
 		for _, letter := range ga.HallOfFame[0].Genome.(Release) {
-			buffer.WriteString(letter) // display results
+			buffer.WriteString(letter)
 		}
-		fmt.Printf("%d) Result -> %s (%.0f mismatches)\n",
+		fmt.Printf("\r%d) Result -> %s (%.0f mismatches)",
 			ga.Generations, buffer.String(), ga.HallOfFame[0].Fitness,
 		)
 	}
 
 	// Run the GA
-	ga.Minimize(MakeRelease)
+	ga.Minimize(dev.MakeRelease)
 }
