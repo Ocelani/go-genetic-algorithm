@@ -18,7 +18,7 @@ var corpus = strings.Split("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 
 var dev = NewDevelopment()
 
-var target = dev.Requirements
+var target = dev.Release
 
 // Evaluate method returns the fitness of a genome.
 func (x Release) Evaluate() (mismatches float64, err error) {

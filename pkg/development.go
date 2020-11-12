@@ -20,7 +20,7 @@ type Resources map[int]int
 // NewDevelopment instantiates a new Development type.
 func NewDevelopment() Development {
 	dev := Development{
-		Requirements: strings.Split("celani", ""),
+		Requirements: strings.Split("injOhgdTlnDSArwLpmn", ""),
 		// Stakeholders: setStakeholders(5),
 	}
 
