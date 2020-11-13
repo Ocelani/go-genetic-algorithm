@@ -1,4 +1,8 @@
 github.com/MaxHalford/eaopt v0.1.0 h1:eeAxFfy4zEcv7AZzQCHeYGRutifxN0EA/XZzv70Uaus=
 github.com/MaxHalford/eaopt v0.1.0/go.mod h1:/BtsvPTut6WckNrjS1D7MQRv9IOXnPN0lnrWIqyCFQI=
+github.com/handcraftsman/GeneticGo v0.0.0-20121204155842-2015dfd4fa09 h1:JFZd8tLw62qpl/+VfP0Ht/a1VAqbz0KK438lOPOPeT4=
+github.com/handcraftsman/GeneticGo v0.0.0-20121204155842-2015dfd4fa09/go.mod h1:3uIeAvTY6PL1y6lpCfLN3kUCorkAC6nJeiqNufVyPeI=
+github.com/handcraftsman/Random v0.0.0-20120511065746-0b5bbc5c332b h1:Pe2F3XM10eFpT3vwtotV3zNE5IUuUf/TACraDMUr/Bs=
+github.com/handcraftsman/Random v0.0.0-20120511065746-0b5bbc5c332b/go.mod h1:0p1Sq7KQk4ljvZbnPmzsN5pSPNIwk3p6iLGonKCXL64=
 golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 h1:SQFwaSi55rU7vdNs9Yr0Z324VNlrF+0wMqRXT4St8ck=
 golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=

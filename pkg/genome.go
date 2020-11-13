@@ -9,56 +9,47 @@ import (
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
-var (
-	corpus = strings.Split("abcdefghijklmnopqrstuvwxyz ", "")
-	target = strings.Split("software release", "")
-)
+// Release is a slice of Release.
+type Release []string
 
-// Strings is a slice of strings.
-type Strings []string
-
-// MakeStrings creates random Strings slices
-// by picking random characters from a corpus.
-func MakeStrings(rng *rand.Rand) eaopt.Genome {
-	return Strings(eaopt.InitUnifString(uint(len(target)), corpus, rng))
-}
+var corpus = strings.Split("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", "")
+var dev = NewDevelopment()
 
 // Evaluate method returns the fitness of a genome.
-// It specifies the problem to deal with and the algorithm only needs it's output.
-func (X Strings) Evaluate() (mismatches float64, err error) {
-	for i, s := range X {
-		if s != target[i] {
+func (x Release) Evaluate() (mismatches float64, err error) {
+	for i, s := range x {
+		if s != dev.Target[i] {
 			mismatches++
 		}
 	}
 	return
 }
 
-// Mutate a Strings slice by replacing it's elements
-// by random characters contained in  a corpus.
-func (X Strings) Mutate(rng *rand.Rand) {
-	eaopt.MutUniformString(X, corpus, 3, rng)
+// Mutate method sets a Release string slice by replacing it's elements.
+func (x Release) Mutate(rng *rand.Rand) {
+	eaopt.MutUniformString(x, corpus, 3, rng)
 }
 
-// Crossover a Strings slice with another by applying 2-point crossover.
-func (X Strings) Crossover(Y eaopt.Genome, rng *rand.Rand) {
-	eaopt.CrossGNXString(X, Y.(Strings), 2, rng)
+// Crossover method sets a Release string slice with another by applying 2-point crossover.
+func (x Release) Crossover(Y eaopt.Genome, rng *rand.Rand) {
+	eaopt.CrossGNXString(x, Y.(Release), 2, rng)
 }
 
-// Clone method produces independent copies of the Strings to evolve.
+// Clone method produces independent copies of the Release to evolve.
 // Pointer fields are not pointing to identical memory addresses.
 // This makes the produced clones to not be shallow copies of the genome.
-func (X Strings) Clone() eaopt.Genome {
-	var XX = make(Strings, len(X))
-	copy(XX, X)
-	return XX
+func (x Release) Clone() eaopt.Genome {
+	var xx = make(Release, len(x))
+	copy(xx, x)
+	return xx
 }
 
 // Run executes the algorithm.
 func Run() {
+	// dev := dev
 	c := &eaopt.GAConfig{
 		NPops:        400,  // The number of populations that will be used
-		PopSize:      100,  // The number of individuals inside each population
+		PopSize:      300,  // The number of individuals inside each population
 		NGenerations: 5000, // For many generations the populations will be evolved
 		HofSize:      1,    // How many of the best individuals should be recorded
 		Model: eaopt.ModSteadyState{ // Determines how to evolve each population of individuals
@@ -66,10 +57,11 @@ func Run() {
 			MutRate:   0.1,
 			CrossRate: 0.9,
 		},
-		RNG:          rand.New(rand.NewSource(42)),
+		// RNG:          rand.New(rand.NewSource(42)),
 		ParallelEval: true,
+		// EarlyStop:    func(ga *eaopt.GA) bool { if ga.HallOfFame[] },
 	}
-
+	ga, err := c.NewGA()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -77,22 +69,16 @@ func Run() {
 
 	// Add a custom print function to track progress
 	ga.Callback = func(ga *eaopt.GA) {
-		// Concatenate the elements from the best individual and display the result
 		var buffer bytes.Buffer
-		for _, letter := range ga.HallOfFame[0].Genome.(Strings) {
+		// Concatenate the elements from the best individual and display the result
+		for _, letter := range ga.HallOfFame[0].Genome.(Release) {
 			buffer.WriteString(letter)
 		}
-		fmt.Printf("%d) Result -> %s (%.0f mismatches)\n", ga.Generations, buffer.String(), ga.HallOfFame[0].Fitness)
+		fmt.Printf("\r%d) Result -> %s (%.0f mismatches)",
+			ga.Generations, buffer.String(), ga.HallOfFame[0].Fitness,
+		)
 	}
 
 	// Run the GA
-	ga.Minimize(MakeStrings)
-
-	return
+	ga.Minimize(dev.MakeRelease)
 }
-
-// 	NPops        uint        // The number of populations that will be used
-// 	PopSize      uint        // The number of individuals inside each population
-//  NGenerations             // For many generations the populations will be evolved
-// 	HofSize      uint        // How many of the best individuals should be recorded
-// 	Model        eaopt.Model // Determines how to evolve each population of individuals
