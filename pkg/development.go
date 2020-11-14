@@ -2,7 +2,9 @@ package pkg
 
 import (
 	"container/heap"
+	"fmt"
 	"math/rand"
+	"strconv"
 
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
@@ -11,9 +13,9 @@ import (
 type Development struct {
 	Stakeholders []*Stakeholder // 5 stakeholders
 	Requirements map[string]int // 19 requirements
-	Resources    int            // 3 different resources
 	Release      Release        // 5 releases
 	Target       []string       // 5 releases
+	// Resources    int         // 3 different resources
 }
 
 // Resources are all sort of goods available
@@ -25,7 +27,21 @@ func NewDevelopment() *Development {
 	dev := &Development{Requirements: map[string]int{}}
 	dev.setStakeholders(5)
 	dev.setProjectRequirements()
-	dev.Resources = 3
+
+	go func() {
+		var s, p string
+		for sr, pr := range dev.Requirements {
+			s = s + " " + sr
+			p = p + " " + strconv.Itoa(pr)
+		}
+		fmt.Printf(`
+    # REQUIREMENTS
+      requirements: %v
+      priorities:   %v
+      `, s, p)
+		fmt.Println()
+	}()
+
 	return dev
 }
 
@@ -36,8 +52,25 @@ func (dev *Development) MakeRelease(rng *rand.Rand) eaopt.Genome {
 }
 
 func (dev *Development) setStakeholders(n int) {
+	fmt.Printf(`
+  -----------------------------
+  STAKEHOLDERS`)
+
 	for i := 0; i < n; i++ {
-		dev.Stakeholders = append(dev.Stakeholders, NewStakeholder())
+		stk := NewStakeholder(i + 1)
+		dev.Stakeholders = append(dev.Stakeholders, stk)
+
+		var s, p string
+		for sr, pr := range stk.Requirements {
+			s = s + " " + sr
+			p = p + " " + strconv.Itoa(pr)
+		}
+		fmt.Printf(`
+      id: %v
+      requirements: %v
+      priorities:   %v
+      _____________________________
+      `, i+1, s, p)
 	}
 }
 
@@ -60,10 +93,12 @@ func (dev *Development) setProjectRequirements() {
 	heap.Init(&queue)
 
 	dev.Target = []string{}
+
 	for len(dev.Requirements) < 20 {
 		item := heap.Pop(&queue).(*Item)
 		dev.Requirements[item.Value] = item.Priority
 		dev.Target = append(dev.Target, item.Value)
 	}
 	dev.Release = make([]string, len(dev.Requirements))
+
 }

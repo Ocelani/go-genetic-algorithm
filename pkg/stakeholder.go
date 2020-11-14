@@ -5,15 +5,17 @@ import "math/rand"
 // Stakeholder have different importance levels (1 ... 5)
 // to the company and different requirements priorities.
 type Stakeholder struct {
+	ID           int
 	Priority     int
 	Requirements map[string]int
 }
 
 // NewStakeholder instantiates a new stakeholder.
-func NewStakeholder() *Stakeholder {
+func NewStakeholder(id int) *Stakeholder {
 	i := rand.Intn(5)
 
 	return &Stakeholder{
+		ID:           id,
 		Priority:     i,
 		Requirements: NewRequirementsList(i),
 	}
