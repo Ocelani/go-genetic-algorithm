@@ -4,34 +4,35 @@ This repo is inspired by the article:
 "A new approach to the software release planning", deColares et al.
 https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.189.1000&rep=rep1&type=pdf
 
-
-
 ### What does this code do?
 
 It reproduces a simulation of a software project with genetic algorithms pattern.
 
-
 ### How does it work?
 
-   First, keep in mind that each development requirement is symbolized with one char generated with a random bytes number and then, converted to a string.
+First, keep in mind that each development requirement is symbolized with one char generated with a random bytes number and then, converted to a string.
 
-   Each execution is project case scenario. It has 5 stakeholders and it's influence weight. All of them, have a list of requirements and it's priorities for each one.
-
-   At the startup of the project, it prints the stakeholders with their requirements and their respective priorities. Then, it shows the merged requirements list for the project.
-
-   After that, is the development cicle, wich was implemented using concepts of genetic algorithms. There is a development team with 3 individuals. Each one, provides about 400 of solutions. They interact and work together to find the best solutions for each requirement. Then, they keep evolving and making progress at the project.
-
-   There is a duration for each release. At the release time, it prints one graph that shows the progress at the project, wich is a refference to the clients satisfaction.
-
-   Given that the first solutions are well known solutions by the development team, as well the prioritized ones, the last requirements are the toughest to proceed.
+During the execution, you will observe a graph that symbolizes the development cicle progress. There is a duration for each release. At the release time, it prints one graph that shows the progress at the project, wich is a refference to the clients satisfaction.
 
 ![graph](images/graph.png)
 
+There is a development team with 3 individuals. Each one, provides about 400 of solutions. They interact and work together to find the best solutions for each requirement. Then, they keep evolving and working together during runtime.
+
+Each execution is a different project case scenario. It has 5 stakeholders and it's influence weight. All of them, have a list of requirements and it's priorities for each one. It prints the stakeholders with their requirements and their respective priorities. Then, it shows the merged requirements list for the project.
+
+![stakeholders](images/stk.png)
+
+The first solutions are well known solutions by the development team, as well the prioritized ones, the last requirements are the toughest to proceed, due to challenges and software versioning stuff.
+
+![development](images/dev.png)
+
 # Introduction
 
-   This project uses the concept of genetic algorithms, wich was implemented in Golang, using the library Eaopt.
+This project uses the concept of genetic algorithms, wich was implemented in Golang, using the library Eaopt.
 
-   It simulates the problem from the mentionated article, the software release problem. This metaheuristic deliberates about one common problem in software development industry, the time of execution of a project of software.
+It simulates the problem from the mentionated article, "the software release problem". This metaheuristic deliberates about common obstacles in software development industry during the execution of a project of software.
+
+![release](images/release.png)
 
 ## Imagine the following situation
 
@@ -43,6 +44,8 @@ Given these informations, the requirements list of each stakeholder has to be me
 
 Wait! The clients have a few questions. When is the first release? What will be implemented? How long does it will take to develop a satisfactory product? These kinds of questions are frequently asked by the clients, and these questions are the most hard to answer, due to an uncertainty scenario. Fortunatelly, our project owner is a very competent professional and knows how to deal with the client. Now, the development begins!
 
+![management](images/management.png)
+
 Our development team doesn't know what kind of requirements they will face at this project. Despite of the qualifications of our product owner (of course nobody doubts of that), their vision of the product is not the same as the client's. That's because not even the clients dont know what they want! They know that there is a problem that can be solved with a software, but most of them doesn't know how and even how a software works.
 
 Facing the uncertain challenges with the development tasks. Some developers have an idea how to implement a solution for a given requirement. Although, the most frequently thinking of a software developer is:
@@ -53,13 +56,13 @@ Humans are a complex life being, as the society and social relations. We don't h
 
 #### This project is about that, it simulates the progress of a software development in an uncertain scenario, with individual developers, which interacts with each other to learn and solve a problem together
 
+![software-engineering](images/softeng.png)
+
 # Execution
 
 The repository contains one binary executable for your OS: Windows or Unix systems (MacOS or Linux).
 
 Another option is to execute by the source with Go (Golang) programming language. For that, first you need to have the tool installed and then execute it.
-
-
 
 # The bellow texts were retired from the inspired article
 

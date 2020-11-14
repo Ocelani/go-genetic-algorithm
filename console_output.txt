@@ -1,0 +1,46 @@
+ 19.00 ┼╮
+ 18.00 ┤╰╮
+ 17.00 ┤ ╰╮
+ 16.00 ┤  ╰──╮
+ 15.00 ┤     ╰──╮
+ 14.00 ┤        ╰──╮
+ 13.00 ┤           ╰─╮
+ 12.00 ┤             ╰╮
+ 11.00 ┤              ╰─╮
+ 10.00 ┤                ╰──╮
+  9.00 ┤                   ╰──╮
+  8.00 ┤                      ╰───╮
+  7.00 ┤                          ╰──╮
+  6.00 ┤                             ╰───╮
+  5.00 ┤                                 ╰─────────╮
+  4.00 ┤                                           ╰─────
+M8wf9jq-LrFOQc-jOIz || BestFitness: 4 || Generation: 5001 || Running: 4.65s
+
+DEVELOPMENT
+STK	 4 1 4 5 5 1 1 5 1 1 1 4 4 5 5 3 5 5 3
+PRI	 8 8 8 8 8 8 8 8 8 8 7 7 7 7 7 7 7 7 7
+REQ	 M 8 w f 9 j q - L r Y O Q A 6 c O I z
+                         X     X X /
+
+STAKEHOLDERS
+ ID: 1
+ PRIORITY: 4
+ w Y V 1 j F G _ W q k L X t r - 8 u
+ 0 3 1 0 4 0 0 2 1 4 3 4 0 0 4 1 4 0
+ ID: 2
+ PRIORITY: 3
+ 6 r T 4 d s G n 8 J 9 L e c O _ Q f
+ 3 2 0 3 2 1 0 0 4 2 4 0 4 3 3 3 3 0
+ ID: 3
+ PRIORITY: 3
+ s f c D z F Y g 2 l K 7 m j O P a t
+ 2 0 4 2 4 1 4 4 4 3 0 2 4 4 2 1 0 0
+ ID: 4
+ PRIORITY: 4
+ s B S x E X 6 z I i V L M w O 9 Q 0
+ 2 2 1 0 1 3 2 2 0 2 2 0 4 4 3 1 3 1
+ ID: 5
+ PRIORITY: 4
+ A B f d 9 i G Z I J h 1 M 7 O - S 6
+ 3 1 4 0 4 0 2 0 3 2 3 3 1 3 3 4 2 3
+
