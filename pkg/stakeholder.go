@@ -1,21 +1,27 @@
 package pkg
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 // Stakeholder have different importance levels (1 ... 5)
 // to the company and different requirements priorities.
 type Stakeholder struct {
 	ID           int
 	Priority     int
-	Requirements map[string]int
+	Requirements []*Requirement
 }
 
 // NewStakeholder instantiates a new stakeholder.
-func NewStakeholder() *Stakeholder {
-	i := rand.Intn(5)
+func NewStakeholder(i int) *Stakeholder {
+	p := rand.New(
+		rand.NewSource(time.Now().UnixNano()),
+	).Intn(5)
 
 	return &Stakeholder{
-		Priority:     i,
-		Requirements: NewRequirementsList(i),
+		ID:           i,
+		Priority:     p,
+		Requirements: NewRequirementsList(i, p),
 	}
 }

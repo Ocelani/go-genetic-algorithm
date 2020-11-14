@@ -1,37 +1,48 @@
 package pkg
 
 import (
-	"log"
 	"math/rand"
+	"strings"
 	"time"
+
+	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 )
 
-// Requirements is a list of each requirements
-// Req vs. Priority
-type Requirements map[string]int
+// Requirement is a symbolizes a software requirement.
+type Requirement struct {
+	Char     string
+	Priority int
+	StakeID  int
+}
 
-// NewRequirement isntantiates a new requirements.
-func NewRequirement(i int) Requirements {
-	s, err := GenerateRandomString(1)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return Requirements{
-		s: i + rand.New(rand.NewSource(time.Now().UnixNano())).Intn(5),
+// NewRequirement instantiates a new requirements.
+func NewRequirement(stk, p int) *Requirement {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	s := eaopt.InitUniqueString(1, corpus, r)
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	return &Requirement{
+		StakeID: stk,
+		Char:    strings.Join(s, ""),
+		Priority: rand.New(
+			rand.NewSource(time.Now().UnixNano())).Intn(5),
 	}
 }
 
-// NewRequirementsList isntantiates a new list of requirementss.
-func NewRequirementsList(i int) Requirements {
-	s, err := GenerateRandomString(19)
-	if err != nil {
-		log.Fatal(err)
+// NewRequirementsList instantiates a new list of requirements.
+func NewRequirementsList(stk, p int) []*Requirement {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	s := eaopt.InitUniqueString(18, corpus, r)
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	reqs := []*Requirement{}
+	for _, c := range s {
+		reqs = append(reqs, &Requirement{
+			Char:     string(c),
+			Priority: r.Intn(5),
+			StakeID:  stk,
+		})
 	}
 
-	reqs := map[string]int{}
-	for _, c := range s {
-		reqs[string(c)] = i + rand.New(
-			rand.NewSource(time.Now().UnixNano())).Intn(5)
-	}
 	return reqs
 }

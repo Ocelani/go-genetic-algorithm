@@ -3,18 +3,24 @@ package pkg
 import (
 	"bytes"
 	"fmt"
-	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
 	"github.com/guptarohit/asciigraph"
 )
 
+var dev = NewDevelopment()
+
+var releases = []uint{
+	1, 10, 100, 250, 500, 1000, 1500, 2000,
+	2500, 3000, 3500, 4000, 4500, 5000,
+}
+
 // Run executes the algorithm.
 func Run() {
 	t := time.Now()
 	c := &eaopt.GAConfig{
-		RNG:          rand.New(rand.NewSource(time.Now().UnixNano())),
 		NPops:        400,  // The number of populations that will be used
 		PopSize:      3,    // The number of individuals inside each population
 		NGenerations: 5001, // For many generations the populations will be evolved
@@ -41,21 +47,44 @@ func Run() {
 		for _, letter := range ga.HallOfFame[0].Genome.(Release) {
 			buffer.WriteString(letter) // Concatenate the elements from the best individual
 		}
-		fmt.Printf("\r %v - Best fitness at generation %d: %.0f",
-			time.Since(t), ga.Generations, ga.HallOfFame[0].Fitness)
+		fmt.Printf("\r%v || BestFitness: %.0f || Generation: %v || Running: %v",
+			&buffer, ga.HallOfFame[0].Fitness,
+			ga.Generations, time.Since(t).Round(time.Millisecond))
 
-		go func(gen uint) {
-			if gen == 1 || gen == 10 || gen == 50 || gen == 100 ||
-				gen == 500 || gen == 1000 || gen == 1500 || gen == 2000 || gen == 2500 ||
-				gen == 3000 || gen == 3500 || gen == 4000 || gen == 4500 || gen == 5000 {
-
-				data = append(data, ga.HallOfFame[0].Fitness)
-				g := asciigraph.Plot(data, asciigraph.Width(50))
-				fmt.Println()
-				fmt.Println(g)
-				fmt.Println()
-			}
-		}(ga.Generations)
+		for _, rel := range releases {
+			go func(gen, rel uint) {
+				if gen == rel {
+					data = append(data, ga.HallOfFame[0].Fitness)
+					g := asciigraph.Plot(data, asciigraph.Width(50))
+					fmt.Printf("\n\n%v\n", g)
+				}
+			}(ga.Generations, rel)
+		}
 	}
 	ga.Minimize(dev.MakeRelease) // Run the GA
+}
+
+// Finalize prints a conclusion on the console.
+func Finalize() {
+	fmt.Printf("\n\nSTAKEHOLDERS")
+
+	for _, stk := range dev.Stakeholders {
+		var reqs, pris string
+		for _, r := range stk.Requirements {
+			reqs = reqs + " " + r.Char
+			pris = pris + " " + strconv.Itoa(r.Priority)
+		}
+		fmt.Printf("\n ID: %d \n PRIORITY: %d\n%s\n%s\n",
+			stk.ID, stk.Priority, reqs, pris)
+	}
+
+	var reqs, pris, stks string
+	for _, r := range dev.Requirements {
+		stks = stks + " " + strconv.Itoa(r.StakeID)
+		reqs = reqs + " " + r.Char
+		pris = pris + " " + strconv.Itoa(r.Priority)
+	}
+	fmt.Printf("\nDEVELOPMENT\nSTK\t%s\nREQ\t%s\nPRI\t%s\n\n", stks, reqs, pris)
+
+	return
 }

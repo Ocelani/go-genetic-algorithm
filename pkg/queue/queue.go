@@ -1,4 +1,4 @@
-package pkg
+package queue
 
 import (
 	"container/heap"
@@ -9,6 +9,7 @@ type Item struct {
 	Index    int // The index of the item in the heap.
 	Priority int
 	Value    string
+	StakeID  int
 }
 
 // A PriorityQueue implements heap.Interface and holds Items.

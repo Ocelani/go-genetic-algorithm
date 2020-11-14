@@ -1,4 +1,4 @@
-package pkg
+package writecsv
 
 import (
 	"encoding/csv"
