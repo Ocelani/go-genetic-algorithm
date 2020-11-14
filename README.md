@@ -4,35 +4,36 @@ This repo is inspired by the article:
 "A new approach to the software release planning", deColares et al.
 https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.189.1000&rep=rep1&type=pdf
 
-### What does this code?
+
+
+### What does this code do?
 
 It reproduces a simulation of a software project with genetic algorithms pattern.
 
+
 ### How does it work?
 
-First, keep in mind that each development requirement is symbolized with one char generated with a random bytes number and then, converted to a string.
+   First, keep in mind that each development requirement is symbolized with one char generated with a random bytes number and then, converted to a string.
 
-Each execution is project case scenario. It has 5 stakeholders and it's influence weight. All of them, have a list of requirements and it's priorities for each one.
+   Each execution is project case scenario. It has 5 stakeholders and it's influence weight. All of them, have a list of requirements and it's priorities for each one.
 
-At the startup of the project, it prints the stakeholders with their requirements and their respective priorities. Then, it shows the merged requirements list for the project.
+   At the startup of the project, it prints the stakeholders with their requirements and their respective priorities. Then, it shows the merged requirements list for the project.
 
-After that, is the development cicle, wich was implemented using concepts of genetic algorithms. There is a development team with 3 individuals. Each one, provides about 400 of solutions. They interact and work together to find the best solutions for each requirement. Then, they keep evolving and making progress at the project.
+   After that, is the development cicle, wich was implemented using concepts of genetic algorithms. There is a development team with 3 individuals. Each one, provides about 400 of solutions. They interact and work together to find the best solutions for each requirement. Then, they keep evolving and making progress at the project.
 
-There is a duration for each release. At the release time, it prints one graph that shows the progress at the project, wich is a refference to the clients satisfaction.
+   There is a duration for each release. At the release time, it prints one graph that shows the progress at the project, wich is a refference to the clients satisfaction.
 
-Given that the first solutions are well known solutions by the development team, as well the prioritized ones, the last requirements are the toughest to proceed.
+   Given that the first solutions are well known solutions by the development team, as well the prioritized ones, the last requirements are the toughest to proceed.
 
 ![graph](images/graph.png)
 
----
+# Introduction
 
-## Introduction
+   This project uses the concept of genetic algorithms, wich was implemented in Golang, using the library Eaopt.
 
-This project uses the concept of genetic algorithms, wich was implemented in Golang, using the library Eaopt.
+   It simulates the problem from the mentionated article, the software release problem. This metaheuristic deliberates about one common problem in software development industry, the time of execution of a project of software.
 
-It simulates the problem from the mentionated article, the software release problem. This metaheuristic deliberates about one common problem in software development industry, the time of execution of a project of software.
-
-#### Imagine the following situation
+## Imagine the following situation
 
 There is one new development project at your job. At the start, the product owner looks forward to understand the clients problem, however, each stakeholder have it's own requirement ideas and priorities. One important detail is that each stakeholder have it's influence capabilities.
 
@@ -50,17 +51,17 @@ Facing the uncertain challenges with the development tasks. Some developers have
 
 Humans are a complex life being, as the society and social relations. We don't have answers for most of the questions, probably, we have more questions for another question. That's the essence of a problem: one situation that needs to be solved. Some of them we know how, but we can't, due to the lack of resources. However, for the most of them we have to face a challenge, learn something, keep evolving.
 
-##### This project is about that, it simulates the progress of a software development in an uncertain scenario, with individual developers, which interacts with each other to learn and solve a problem together
+#### This project is about that, it simulates the progress of a software development in an uncertain scenario, with individual developers, which interacts with each other to learn and solve a problem together
 
-## Execution
+# Execution
 
 The repository contains one binary executable for your OS: Windows or Unix systems (MacOS or Linux).
 
 Another option is to execute by the source with Go (Golang) programming language. For that, first you need to have the tool installed and then execute it.
 
----
 
-##### The bellow texts were retired from the inspiration article
+
+# The bellow texts were retired from the inspired article
 
 "A new approach to the software release planning", deColares et al.
 
@@ -70,13 +71,13 @@ It was considered the following problem instance: 19 requirements that should be
 
 Given the aspects above mentioned, the problem of software release planning can be described as follows:
 
-#### We want to both:
+### We want to both:
 
 – maximize stakeholders satisfaction and
 
 – minimize project risks.
 
-#### Respecting:
+### Respecting:
 
 – the available resources and
 
@@ -92,7 +93,7 @@ Given the aspects above mentioned, the problem of software release planning can 
 
 - **Resources:** Are all sort of goods available for the completion of the project activities. Naturally, release planning must respect the availability of resources.
 
-#### Relations
+### Relations
 
 - **Stakeholders vs. Requirements:** Associated to every requirement there are importance (priority) values, which measure its importance to each stakeholders.
 
