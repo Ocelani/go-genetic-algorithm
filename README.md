@@ -32,7 +32,7 @@ This project uses the concept of genetic algorithms, wich was implemented in Gol
 
 It simulates the problem from the mentionated article, the software release problem. This metaheuristic deliberates about one common problem in software development industry, the time of execution of a project of software.
 
-#### Imagine the following situation
+### Imagine the following situation
 
 There is one new development project at your job. At the start, the product owner looks forward to understand the clients problem, however, each stakeholder have it's own requirement ideas and priorities. One important detail is that each stakeholder have it's influence capabilities.
 
@@ -50,7 +50,7 @@ Facing the uncertain challenges with the development tasks. Some developers have
 
 Humans are a complex life being, as the society and social relations. We don't have answers for most of the questions, probably, we have more questions for another question. That's the essence of a problem: one situation that needs to be solved. Some of them we know how, but we can't, due to the lack of resources. However, for the most of them we have to face a challenge, learn something, keep evolving.
 
-##### This project is about that, it simulates the progress of a software development in an uncertain scenario, with individual developers, which interacts with each other to learn and solve a problem together
+#### This project is about that, it simulates the progress of a software development in an uncertain scenario, with individual developers, which interacts with each other to learn and solve a problem together
 
 ## Execution
 
@@ -60,7 +60,7 @@ Another option is to execute by the source with Go (Golang) programming language
 
 ---
 
-##### The bellow texts were retired from the inspiration article
+## The bellow texts were retired from the inspiration article
 
 "A new approach to the software release planning", deColares et al.
 
