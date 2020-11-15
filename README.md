@@ -128,3 +128,5 @@ This subsection will discuss specific aspects related to problem and settings of
    • mutation tax: _0.1 or 10%_
    • population size (solutions per generation): _400_
    • number of generations: _5000_
+
+---
