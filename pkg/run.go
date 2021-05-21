@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Ocelani/go-genetic-algorithm/eaopt"
@@ -18,7 +19,7 @@ var releases = []uint{
 }
 
 // Run executes the algorithm.
-func Run() {
+func Run() (b *bytes.Buffer) {
 	t := time.Now()
 	c := &eaopt.GAConfig{
 		NPops:        400,  // The number of populations that will be used
@@ -35,7 +36,7 @@ func Run() {
 	ga, err := c.NewGA()
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil
 	}
 
 	data := []float64{19}
@@ -47,8 +48,9 @@ func Run() {
 		for _, letter := range ga.HallOfFame[0].Genome.(Release) {
 			buffer.WriteString(letter) // Concatenate the elements from the best individual
 		}
+		b = &buffer
 		fmt.Printf("\r%v || BestFitness: %.0f || Generation: %v || Running: %v",
-			&buffer, ga.HallOfFame[0].Fitness,
+			b, ga.HallOfFame[0].Fitness,
 			ga.Generations, time.Since(t).Round(time.Millisecond))
 
 		for _, rel := range releases {
@@ -62,10 +64,11 @@ func Run() {
 		}
 	}
 	ga.Minimize(dev.MakeRelease) // Run the GA
+	return b
 }
 
 // Finalize prints a conclusion on the console.
-func Finalize() {
+func Finalize(b *bytes.Buffer) {
 	fmt.Printf("\n\nSTAKEHOLDERS")
 
 	for _, stk := range dev.Stakeholders {
@@ -84,7 +87,20 @@ func Finalize() {
 		reqs = reqs + " " + r.Char
 		pris = pris + " " + strconv.Itoa(r.Priority)
 	}
-	fmt.Printf("\nDEVELOPMENT\nSTK\t%s\nREQ\t%s\nPRI\t%s\n\n", stks, reqs, pris)
+	fmt.Printf("\nDEVELOPMENT\nSTK\t%s\nREQ\t%s\nPRI\t%s\n", stks, reqs, pris)
 
-	return
+	want := strings.ReplaceAll(reqs, " ", "")
+	got := b.String()
+
+	var found, w, g string
+	for i, char := range got {
+		if !strings.Contains(string(want[i]), string(char)) {
+			found = found + " " + "✘"
+		} else {
+			found = found + " " + "✔"
+		}
+		w = w + " " + string(want[i])
+		g = g + " " + string(char)
+	}
+	fmt.Printf("\nREQUIRE\t%s\nRELEASE\t%s\nSUCCESS\t%s\n\n", w, g, found)
 }

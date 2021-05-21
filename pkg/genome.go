@@ -10,7 +10,7 @@ import (
 // Release is a slice of Release.
 type Release []string
 
-var corpus = strings.Split("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", "")
+var corpus = strings.Split("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "")
 
 // Evaluate method returns the fitness of a genome.
 func (x Release) Evaluate() (mismatches float64, err error) {
